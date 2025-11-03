@@ -59,10 +59,10 @@ func deleteTask(c echo.Context) error {
 	for i, task := range tasks {
 		if task.ID == id {
 			tasks = append(tasks[:i], tasks[i+1:]...)
-			return c.NoContent(http.StatusNoContent)
+			return c.JSON(http.StatusOK, task)
 		}
 	}
-	return c.JSON(http.StatusBadRequest, map[string]string{"error": "Calculation not found"})
+	return c.JSON(http.StatusBadRequest, map[string]string{"error": "Task not found"})
 }
 
 func main() {
@@ -73,8 +73,8 @@ func main() {
 
 	e.POST("/tasks", postTask)
 	e.GET("/tasks", getTasks)
-	e.PATCH("/tasks", patchTask)
-	e.DELETE("/tasks", deleteTask)
+	e.PATCH("/tasks/:id", patchTask)
+	e.DELETE("/tasks/:id", deleteTask)
 
 	e.Start("localhost:8080")
 }
