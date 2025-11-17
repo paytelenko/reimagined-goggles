@@ -72,13 +72,9 @@ func (h *TaskHandler) PatchTasks(ctx context.Context, request tasks.PatchTasksRe
 
 func (h *TaskHandler) DeleteTasksId(ctx context.Context, request tasks.DeleteTasksIdRequestObject) (tasks.DeleteTasksIdResponseObject, error) {
 	id := request.Id
-	task, err := h.Service.DeleteTask(id)
+	err := h.Service.DeleteTask(id)
 	if err != nil {
 		return nil, err
 	}
-	return tasks.DeleteTasksId200JSONResponse{
-		Id:     &task.ID,
-		Task:   &task.Text,
-		IsDone: &task.IsDone,
-	}, nil
+	return tasks.DeleteTasksId204JSONResponse{}, nil
 }

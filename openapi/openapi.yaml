@@ -70,7 +70,7 @@ paths:
             format: uint
             minimum: 1
       responses:
-          '200':
+          '204':
             description: The deleted task
             content:
               application/json:
