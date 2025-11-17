@@ -4,6 +4,7 @@ import (
 	"awesomeProject/internal/db"
 	"awesomeProject/internal/handlers"
 	"awesomeProject/internal/taskService"
+	"awesomeProject/internal/web/tasks"
 	"log"
 
 	"github.com/labstack/echo/v4"
@@ -19,16 +20,16 @@ func main() {
 	e := echo.New()
 
 	taskRepo := taskService.NewTaskRepository(database)
-	taskServise := taskService.NewTasksService(taskRepo)
-	taskHandlers := handlers.NewTaskHandler(taskServise)
+	service := taskService.NewTasksService(taskRepo)
+	taskHandlers := handlers.NewTaskHandler(service)
 
-	e.Use(middleware.CORS())
+	e.Use(middleware.Recover())
 	e.Use(middleware.Logger())
 
-	e.POST("/tasks", taskHandlers.PostTasks)
-	e.GET("/tasks", taskHandlers.GetTasks)
-	e.PATCH("/tasks/:id", taskHandlers.PatchTask)
-	e.DELETE("/tasks/:id", taskHandlers.DeleteTask)
+	strictHandler := tasks.NewStrictHandler(taskHandlers, nil) // тут будет ошибка
+	tasks.RegisterHandlers(e, strictHandler)
 
-	e.Start("localhost:8080")
+	if err := e.Start(":8080"); err != nil {
+		log.Fatalf("failed to start with err: %v", err)
+	}
 }
