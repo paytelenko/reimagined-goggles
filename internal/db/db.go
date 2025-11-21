@@ -18,7 +18,7 @@ func InitBD() (*gorm.DB, error) {
 	if err != nil {
 		log.Fatalf("Could not connect to database: %v", err)
 	}
-	//if err := db.AutoMigrate(&taskService.Task{}); err != nil {
+	//if err := db.AutoMigrate(&taskService.Text{}); err != nil {
 	//	log.Fatalf("Could not migrate: %v", err)
 	//}
 	return db, nil
