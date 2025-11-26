@@ -31,19 +31,21 @@ func (h *UserHandler) GetUsers(_ context.Context, _ users.GetUsersRequestObject)
 	return response, nil
 }
 
-func (h *UserHandler) PatchUsers(ctx context.Context, request users.PatchUsersRequestObject) (users.PatchUsersResponseObject, error) {
-	id := *request.Body.Id
+func (h *UserHandler) PatchUsersId(ctx context.Context, request users.PatchUsersIdRequestObject) (users.PatchUsersIdResponseObject, error) {
+	id := request.Id
 
-	user := *request.Body
+	user := request.Body
 
 	updatedUser, err := h.Service.UpdateUser(id, &userService.User{
 		Email:    *user.Email,
 		Password: *user.Password,
 	})
+
 	if err != nil {
 		return nil, err
 	}
-	response := users.PatchUsers200JSONResponse{
+
+	response := users.PatchUsersId200JSONResponse{
 		Id:       &updatedUser.ID,
 		Email:    &updatedUser.Email,
 		Password: &updatedUser.Password,

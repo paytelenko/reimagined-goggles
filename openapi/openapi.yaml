@@ -36,10 +36,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/Task'
 
+
+
+  /tasks/{id}:
     patch:
       summary: Update the task by ID
       tags:
         - tasks
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the task to update
+          schema:
+            type: integer
+            format: uint
+            minimum: 1
       requestBody:
         description: The task to update
         required: true
@@ -54,8 +66,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
-
-  /tasks/{id}:
     delete:
       summary: Delete the task by ID
       tags:
@@ -108,10 +118,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+
+  /users/{id}:
     patch:
       summary: Update the user by ID
       tags:
         - users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the user to delete
+          schema:
+            type: integer
+            format: uint
+            minimum: 1
       requestBody:
         description: The user to update
         required: true
@@ -126,8 +147,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-
-  /users/{id}:
     delete:
       summary: Delete the user by ID
       tags:

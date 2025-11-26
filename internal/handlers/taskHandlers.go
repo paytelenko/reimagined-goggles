@@ -52,8 +52,8 @@ func NewTaskHandler(s taskService.TaskService) *TaskHandler {
 	return &TaskHandler{Service: s}
 }
 
-func (h *TaskHandler) PatchTasks(ctx context.Context, request tasks.PatchTasksRequestObject) (tasks.PatchTasksResponseObject, error) {
-	id := *request.Body.Id
+func (h *TaskHandler) PatchTasksId(ctx context.Context, request tasks.PatchTasksIdRequestObject) (tasks.PatchTasksIdResponseObject, error) {
+	id := request.Id
 	task := *request.Body
 	updatedTask, err := h.Service.UpdateTask(id, taskService.Task{
 		Text:   *task.Task,
@@ -62,7 +62,7 @@ func (h *TaskHandler) PatchTasks(ctx context.Context, request tasks.PatchTasksRe
 	if err != nil {
 		return nil, err
 	}
-	response := tasks.PatchTasks200JSONResponse{
+	response := tasks.PatchTasksId200JSONResponse{
 		Id:     &updatedTask.ID,
 		Task:   &updatedTask.Text,
 		IsDone: &updatedTask.IsDone,
