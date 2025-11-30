@@ -26,7 +26,7 @@ func main() {
 	taskHandlers := handlers.NewTaskHandler(tskService)
 
 	userRepo := userService.NewUserRepository(database)
-	usrService := userService.NewUserService(userRepo)
+	usrService := userService.NewUserService(userRepo, tskService)
 	userHandlers := handlers.NewUserHandler(usrService)
 
 	e.Use(middleware.Recover())

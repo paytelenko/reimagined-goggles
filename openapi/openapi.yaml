@@ -36,8 +36,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Task'
 
-
-
   /tasks/{id}:
     patch:
       summary: Update the task by ID
@@ -168,6 +166,31 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
 
+  /users/{user_id}/tasks:
+    get:
+      summary: Get all tasks by User ID
+      operationId: GetTasksForUser
+      tags:
+        - users
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: ID of the user to get tasks for
+          schema:
+            type: integer
+            format: uint
+            minimum: 1
+      responses:
+        '200':
+          description: A list of tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+
 components:
   schemas:
     Task:
@@ -180,6 +203,9 @@ components:
           type: string
         is_done:
           type: boolean
+        user_id:
+          type: integer
+          format: uint
     User:
       type: object
       properties:

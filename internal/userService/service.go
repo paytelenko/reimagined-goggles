@@ -1,18 +1,26 @@
 package userService
 
+import "awesomeProject/internal/taskService"
+
 type UserService interface {
 	CreateUser(user *User) (*User, error)
 	GetAllUsers() ([]*User, error)
 	GetUserByID(id uint) (*User, error)
 	UpdateUser(id uint, user *User) (*User, error)
 	DeleteUser(id uint) error
+	GetTasksForUser(userID uint) ([]taskService.Task, error)
 }
 type userService struct {
-	repo UserRepository
+	repo        UserRepository
+	taskService taskService.TaskService
 }
 
-func NewUserService(r UserRepository) UserService {
-	return &userService{repo: r}
+func NewUserService(r UserRepository, ts taskService.TaskService) UserService {
+	return &userService{repo: r, taskService: ts}
+}
+
+func (s *userService) GetTasksForUser(userID uint) ([]taskService.Task, error) {
+	return s.taskService.GetTasksByUserID(userID)
 }
 
 func (s *userService) CreateUser(user *User) (*User, error) {

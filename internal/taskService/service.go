@@ -6,6 +6,7 @@ type TaskService interface {
 	GetTaskByID(id uint) (Task, error)
 	UpdateTask(id uint, task Task) (Task, error)
 	DeleteTask(id uint) error
+	GetTasksByUserID(userID uint) ([]Task, error)
 }
 
 type taskService struct {
@@ -22,6 +23,10 @@ func (s *taskService) CreateTask(task *Task) (*Task, error) {
 
 func (s *taskService) GetAllTasks() ([]Task, error) {
 	return s.repo.GetAllTasks()
+}
+
+func (s *taskService) GetTasksByUserID(userID uint) ([]Task, error) {
+	return s.repo.GetTasksByUserID(userID)
 }
 
 func (s *taskService) GetTaskByID(id uint) (Task, error) {
